@@ -30,7 +30,7 @@ Challenge.create = function (options) {
   results.getOptions = function () {
     return results._options;
   };
-  console.log(results);
+  //console.log(results);
   return results;
 };
 var dir = "";
