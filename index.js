@@ -26,14 +26,14 @@ Challenge.create = function (options) {
     }
   });
   results._options = options;
-
+  dir = options.webrootPath;
   results.getOptions = function () {
     return results._options;
   };
-
+  console.log(results);
   return results;
 };
-
+var dir = "";
 //
 // NOTE: the "args" here in `set()` are NOT accessible to `get()` and `remove()`
 // They are provided so that you can store them in an implementation-specific way
@@ -42,14 +42,12 @@ Challenge.create = function (options) {
 Challenge.set = function (args, domain, challengePath, keyAuthorization, done) {
   var mkdirp = require('mkdirp');
   keyAuthorization = String(keyAuthorization);
-
   mkdirp(args.webrootPath, function (err) {
     if (err) {
       done(err);
       return;
     }
-
-    fs.writeFile(path.join(args.webrootPath, challengePath), keyAuthorization, 'utf8', function (err) {
+    fs.writeFile(path.join(dir, challengePath), keyAuthorization, 'utf8', function (err) {
       done(err);
     });
   });
@@ -62,11 +60,11 @@ Challenge.set = function (args, domain, challengePath, keyAuthorization, done) {
 // based on domain and key
 //
 Challenge.get = function (defaults, domain, key, done) {
-  fs.readFile(path.join(defaults.webrootPath, key), 'utf8', done);
+  fs.readFile(path.join(dir, key), 'utf8', done);
 };
 
 Challenge.remove = function (defaults, domain, key, done) {
-  fs.unlink(path.join(defaults.webrootPath, key), done);
+  //fs.unlink(path.join(dir, key), done);
 };
 
 Challenge.loopback = function (defaults, domain, key, done) {
